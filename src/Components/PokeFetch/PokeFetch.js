@@ -10,12 +10,13 @@ class PokeFetch extends Component {
       pokeSprite: '',
       pokeName: '',
       countDown: 10,
-      darkClass: 'darkMon'  // default - blacked out
+      darkClass: 'darkMon',  // default - blacked out
+      toggleHideShow: 'hide'
     }
   }
 
   fetchPokemon() {
-    this.setState({ darkClass: 'darkMon' });
+    this.setState({ darkClass: 'darkMon', toggleHideShow: 'hide' });
     let min = Math.ceil(1);
     let max = Math.floor(152);
     let pokeNum = Math.floor(Math.random() * (max - min) + min);
@@ -33,14 +34,12 @@ class PokeFetch extends Component {
       .catch((err) => console.log(err))
   }
 
-  // removing the my 'stuff' blocks because I'm modifying way more than I'd initially thought
-
   lightMon() {
     const d = new Date();
     console.log("start", d.getTime());
     setTimeout(
       function() {
-      this.setState({ darkClass: 'lightMon' });
+      this.setState({ darkClass: 'lightMon', toggleHideShow: 'show' });
       console.log("end", d.getTime());
       }.bind(this),
       this.state.countDown * 1000
@@ -54,7 +53,7 @@ class PokeFetch extends Component {
         <h1 className={'timer'} >Timer Display</h1>
         <div className={'pokeWrap'}>
           <img className={`pokeImg ${this.state.darkClass}`} src={this.state.pokeSprite} />
-          <h1 className={'pokeName'}>{this.state.pokeName}</h1>
+          <h1 className={`pokeName ${this.state.toggleHideShow}`}>{this.state.pokeName}</h1>
         </div>
       </div>
     )
