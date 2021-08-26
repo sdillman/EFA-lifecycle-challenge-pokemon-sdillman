@@ -42,7 +42,10 @@ class PokeFetch extends Component {
 
 
   fetchPokemon() {
-    this.setState({ darkClass: 'darkMon', toggleHideShow: 'hide' });
+    // trying reset timer
+    this.stopInterval();
+    // this.startInterval();
+    this.setState({ darkClass: 'darkMon', toggleHideShow: 'hide', countDown: 10 });
     let min = Math.ceil(1);
     let max = Math.floor(152);
     let pokeNum = Math.floor(Math.random() * (max - min) + min);
