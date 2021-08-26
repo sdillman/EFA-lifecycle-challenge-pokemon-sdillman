@@ -15,6 +15,7 @@ class PokeFetch extends Component {
   }
 
   fetchPokemon() {
+    this.setState({ darkClass: 'darkMon' });
     let min = Math.ceil(1);
     let max = Math.floor(152);
     let pokeNum = Math.floor(Math.random() * (max - min) + min);
@@ -27,13 +28,12 @@ class PokeFetch extends Component {
           pokeSprite: res.sprites.front_default,
           pokeName: res.species.name,
         })
-        // this.lightMon();
+        this.lightMon();
       })
       .catch((err) => console.log(err))
   }
 
-  // ***** MY SHIT BELOW *****
-  // ***** MY SHIT BELOW *****
+  // removing the my 'stuff' blocks because I'm modifying way more than I'd initially thought
 
   lightMon() {
     const d = new Date();
@@ -43,12 +43,9 @@ class PokeFetch extends Component {
       this.setState({ darkClass: 'lightMon' });
       console.log("end", d.getTime());
       }.bind(this),
-      10000 // 10 seconds
+      this.state.countDown * 1000
     );
   }
-
-   // ***** MY SHIT ABOVE *****
-   // ***** MY SHIT ABOVE *****
 
   render() {
     return (
