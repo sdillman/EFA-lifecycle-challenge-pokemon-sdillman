@@ -9,11 +9,37 @@ class PokeFetch extends Component {
       pokeInfo: '',
       pokeSprite: '',
       pokeName: '',
-      countDown: 10,
+      countDown: 10, // starting value.
       darkClass: 'darkMon',  // default - blacked out
       toggleHideShow: 'hide'
     }
   }
+
+
+  // TIMER METHODS
+  // let's see if breaking these out makes things less gnarly
+
+  checkCountDown() {
+    if (this.state.countDown <= 0) {
+      this.stopInterval();
+      this.setState({
+        toggleHideShow: 'show',
+        darkClass: 'lightMon'
+      });
+    }
+    if (this.state.countDown > 0) {
+      this.setState({ countDown: this.state.countDown - 1 });
+    }
+  }
+  // Kick off the 1 second timer.
+  startInterval() {
+    this.timer = setInterval(this.checkCountDown.bind(this), 1000);
+  }
+  // Kill the timer
+  stopInterval() {
+    clearInterval(this.timer);
+  }
+
 
   fetchPokemon() {
     this.setState({ darkClass: 'darkMon', toggleHideShow: 'hide' });
@@ -29,28 +55,27 @@ class PokeFetch extends Component {
           pokeSprite: res.sprites.front_default,
           pokeName: res.species.name,
         })
-        this.lightMon();
+        this.startInterval();
       })
       .catch((err) => console.log(err))
   }
 
-  lightMon() {
-    const d = new Date();
-    console.log("start", d.getTime());
-    setTimeout(
-      function() {
-      this.setState({ darkClass: 'lightMon', toggleHideShow: 'show' });
-      console.log("end", d.getTime());
-      }.bind(this),
-      this.state.countDown * 1000
-    );
-  }
+  // countdown() {
+  //   let counter = this.state.countDown;
+  //   let interval = setInterval(this.countdown(), 1000);
+  //   counter--;
+  //   this.setState({countDown: counter})
+  //   if (counter <= 0 ) {
+  //     clearInterval(interval);
+  //     this.setState({ darkClass: 'lightMon', toggleHideShow: 'show' });  //the reveal
+  //   }
+  // }
 
   render() {
     return (
       <div className={'wrapper'}>
         <button className={'start'} onClick={() => this.fetchPokemon()}>Start!</button>
-        <h1 className={'timer'} >Timer Display</h1>
+        <h1 className={'timer'} >Timer Display {this.state.countDown}</h1>
         <div className={'pokeWrap'}>
           <img className={`pokeImg ${this.state.darkClass}`} src={this.state.pokeSprite} />
           <h1 className={`pokeName ${this.state.toggleHideShow}`}>{this.state.pokeName}</h1>
