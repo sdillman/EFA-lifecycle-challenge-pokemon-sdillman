@@ -3,12 +3,14 @@ import './PokeFetch.css';
 
 
 class PokeFetch extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       pokeInfo: '',
       pokeSprite: '',
       pokeName: '',
+      countDown: 10,
+      darkClass: 'darkMon'  // default - blacked out
     }
   }
 
@@ -25,9 +27,28 @@ class PokeFetch extends Component {
           pokeSprite: res.sprites.front_default,
           pokeName: res.species.name,
         })
+        // this.lightMon();
       })
       .catch((err) => console.log(err))
   }
+
+  // ***** MY SHIT BELOW *****
+  // ***** MY SHIT BELOW *****
+
+  lightMon() {
+    const d = new Date();
+    console.log("start", d.getTime());
+    setTimeout(
+      function() {
+      this.setState({ darkClass: 'lightMon' });
+      console.log("end", d.getTime());
+      }.bind(this),
+      10000 // 10 seconds
+    );
+  }
+
+   // ***** MY SHIT ABOVE *****
+   // ***** MY SHIT ABOVE *****
 
   render() {
     return (
@@ -35,7 +56,7 @@ class PokeFetch extends Component {
         <button className={'start'} onClick={() => this.fetchPokemon()}>Start!</button>
         <h1 className={'timer'} >Timer Display</h1>
         <div className={'pokeWrap'}>
-          <img className={'pokeImg'} src={this.state.pokeSprite} />
+          <img className={'pokeImg', 'darkMon'} src={this.state.pokeSprite} />
           <h1 className={'pokeName'}>{this.state.pokeName}</h1>
         </div>
       </div>

@@ -38,3 +38,13 @@
   margin-top: -50px;
 }
 
+
+/* ADDED CLASSES FOR THE EXERCISE HERE */
+
+.darkMon {
+  filter: brightness(0);
+}
+
+.lightMon {
+  filter: brightness(1);
+}
